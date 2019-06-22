@@ -67,7 +67,6 @@ public class BottomModalTweetFragment extends BottomSheetDialogFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(getActivity()).get(TweetViewModel.class);
-        // TODO: Use the ViewModel
     }
 
 }
