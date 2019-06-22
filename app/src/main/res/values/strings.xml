@@ -14,4 +14,9 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="toolbar_text_home">Inicio</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="do_tweet">Twittear</string>
+    <string name="whats_happening">¿Qué está pasando?</string>
+
 </resources>
