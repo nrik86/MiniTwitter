@@ -2,7 +2,12 @@ package com.enriquejimenez.minitwitter.ui.adapter;
 
 import android.content.Context;
 import android.graphics.Typeface;
+
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +16,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.enriquejimenez.minitwitter.R;
+import com.enriquejimenez.minitwitter.data.TweetViewModel;
 import com.enriquejimenez.minitwitter.retrofit.response.Like;
 import com.enriquejimenez.minitwitter.retrofit.response.Tweet;
 import com.enriquejimenez.minitwitter.utils.Constants;
@@ -23,11 +29,12 @@ public class MyTweetRecyclerViewAdapter extends RecyclerView.Adapter<MyTweetRecy
     private Context context;
     private List<Tweet> mValues;
     private String ownUserName;
-
+    private TweetViewModel tweetViewModel;
     public MyTweetRecyclerViewAdapter(Context ctx, List<Tweet> items) {
        context = ctx;
        mValues = items;
-       ownUserName = SharedPreferencesManager.getString(Constants.PREF_USER);
+       ownUserName = SharedPreferencesManager.getString(Constants.PREF_USER_NAME);
+       tweetViewModel = ViewModelProviders.of((FragmentActivity) context).get(TweetViewModel.class);
     }
 
     @Override
@@ -39,17 +46,49 @@ public class MyTweetRecyclerViewAdapter extends RecyclerView.Adapter<MyTweetRecy
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+
         holder.mItem = mValues.get(position);
 
-        holder.userNameTextView.setText(holder.mItem.getUser().getUsername());
+        int likesSize = holder.mItem.getLikes().size();
+
+        holder.userNameTextView.setText("@" + holder.mItem.getUser().getUsername());
         holder.messageTextView.setText(holder.mItem.getMensaje());
-        holder.likesCountTextView.setText(String.valueOf(holder.mItem.getLikes().size()));
+        if(likesSize>0){
+            holder.likesCountTextView.setText(String.valueOf(likesSize));
+        }else{
+            holder.likesCountTextView.setText("");
+
+        }
         String photo = holder.mItem.getUser().getPhotoUrl();
         if(!photo.isEmpty()) {
             Glide.with(context)
                     .load(Constants.PHOTO_URL + photo)
                     .into(holder.avatarImageView);
+        }else {
+            Glide.with(context)
+                    .load(context.getResources().getDrawable(R.drawable.ic_mini_twitter_perfil))
+                    .into(holder.avatarImageView);
         }
+        refreshLikeActionImage(holder);
+        setLikeImageView(holder);
+        Log.e("LOG", holder.toString());
+
+    }
+    private void refreshLikeActionImage(final ViewHolder holder){
+       holder.likeImageView.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               tweetViewModel.likeTweet(holder.mItem.getId());
+           }
+       });
+    }
+
+    private void setLikeImageView(final ViewHolder holder) {
+        Glide.with(context)
+                .load(R.drawable.ic_like_unfill_black)
+                .into(holder.likeImageView);
+        holder.likesCountTextView.setTextColor(context.getResources().getColor(android.R.color.black));
+        holder.likesCountTextView.setTypeface(null, Typeface.NORMAL);
 
         for (Like like : holder.mItem.getLikes()){
             if(like.getUsername().equals(ownUserName)){
@@ -61,9 +100,8 @@ public class MyTweetRecyclerViewAdapter extends RecyclerView.Adapter<MyTweetRecy
                 break;
             }
         }
-
-
     }
+
     public void setData(List<Tweet> tweetList){
         this.mValues = tweetList;
         notifyDataSetChanged();
@@ -98,7 +136,7 @@ public class MyTweetRecyclerViewAdapter extends RecyclerView.Adapter<MyTweetRecy
 
         @Override
         public String toString() {
-            return super.toString() + " '" + userNameTextView.getText() + "'";
+            return super.toString() + " '" + mItem.getId() + "'";
         }
     }
 }

@@ -99,7 +99,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     if(response.isSuccessful()){
                         Toast.makeText(SignUpActivity.this, "Conectado", Toast.LENGTH_SHORT).show();
                         SharedPreferencesManager.setString(Constants.PREF_TOKEN,response.body().getToken());
-                        SharedPreferencesManager.setString(Constants.PREF_USER,response.body().getUsername());
+                        SharedPreferencesManager.setString(Constants.PREF_USER_NAME,response.body().getUsername());
                         SharedPreferencesManager.setString(Constants.PREF_EMAIL,response.body().getEmail());
                         SharedPreferencesManager.setString(Constants.PREF_URL_PHOTO,response.body().getPhotoUrl());
                         SharedPreferencesManager.setString(Constants.PREF_CREATED,response.body().getCreated());

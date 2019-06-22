@@ -6,43 +6,53 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragment.NewTweetDialogFragment">
 
-
-    <ImageView
-        android:id="@+id/imageViewCloseDialog"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:src="@drawable/ic_close_blue_ligth_24dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/buttonSendTweet"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutBarDialog"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:background="@drawable/background_new_tweet_button"
-        android:text="@string/do_tweet"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/imageViewCloseDialog"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageViewCloseDialog" />
+        android:background="@color/white">
 
-    <ImageView
-        android:id="@+id/imageViewAvatar"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        <ImageView
+            android:id="@+id/imageViewCloseDialog"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="24dp"
+            android:src="@drawable/ic_close_blue_ligth_24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/buttonSendTweet"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/buttonSendTweet" />
+
+        <Button
+            android:id="@+id/buttonSendTweet"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/background_new_tweet_button"
+            android:text="@string/do_tweet"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imageViewAvatarNewTweet"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="19dp"
         android:layout_marginTop="24dp"
-        android:src="@drawable/ic_account_circle_dark_grey_24dp"
-        app:layout_constraintEnd_toEndOf="@+id/imageViewCloseDialog"
-        app:layout_constraintStart_toStartOf="@+id/imageViewCloseDialog"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewCloseDialog" />
+        tools:src="@drawable/ic_account_circle_dark_grey_24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutBarDialog"
+        app:civ_border_color="@color/white"
+        app:civ_border_width="2dp"/>
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/editTextMessageNewTweet"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -55,8 +65,8 @@
         android:inputType="textMultiLine"
         android:textColor="@android:color/black"
         android:textColorHint="@color/colorPrimary"
-        android:textSize="24sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageViewAvatar"
-        app:layout_constraintTop_toTopOf="@+id/imageViewAvatar" />
+        app:layout_constraintStart_toEndOf="@+id/imageViewAvatarNewTweet"
+        app:layout_constraintTop_toTopOf="@+id/imageViewAvatarNewTweet" />
 </androidx.constraintlayout.widget.ConstraintLayout>

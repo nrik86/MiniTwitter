@@ -2,12 +2,18 @@ package com.enriquejimenez.minitwitter.ui.activity;
 
 import android.os.Bundle;
 
+import com.bumptech.glide.Glide;
 import com.enriquejimenez.minitwitter.ui.fragment.NewTweetDialogFragment;
+import com.enriquejimenez.minitwitter.utils.Constants;
+import com.enriquejimenez.minitwitter.utils.SharedPreferencesManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.enriquejimenez.minitwitter.R;
 import com.enriquejimenez.minitwitter.ui.fragment.TweetListFragment;
@@ -16,24 +22,34 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class DashboardActivity extends AppCompatActivity {
 
     private FloatingActionButton floatingActionButton;
+    private ImageView avatarImageView;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+            Fragment fragment = null;
+
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new TweetListFragment());
-
-                    return true;
+                    fragment = TweetListFragment.newInstance(Constants.TWEET_LIST_ALL);
+                    break;
                 case R.id.navigation_favs:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new TweetListFragment());
-
-                    return true;
+                    fragment = TweetListFragment.newInstance(Constants.TWEET_LIST_FAVS);
+                    break;
                 case R.id.navigation_profile:
-                    return true;
             }
+            if(fragment != null){
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragmentContainer,
+                                fragment)
+                        .commit();
+                return true;
+            }
+
             return false;
         }
     };
@@ -46,9 +62,30 @@ public class DashboardActivity extends AppCompatActivity {
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         getSupportActionBar().hide();
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new TweetListFragment()).commit();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragmentContainer,
+                        TweetListFragment.newInstance(Constants.TWEET_LIST_ALL))
+                .commit();
 
+        setViews();
+        setEvents();
+    }
+
+    private void setViews() {
         floatingActionButton = findViewById(R.id.fab);
+        avatarImageView = findViewById(R.id.imageViewUserToolbar);
+
+        if(!SharedPreferencesManager.getString(Constants.PREF_URL_PHOTO).isEmpty()) {
+            String photoUser = Constants.PHOTO_URL + SharedPreferencesManager.getString(Constants.PREF_URL_PHOTO);
+            Glide.with(this).load(photoUser).into(avatarImageView);
+        }else{
+            Glide.with(this)
+                    .load(this.getResources().getDrawable(R.drawable.ic_mini_twitter_perfil))
+                    .into(avatarImageView);
+        }
+    }
+    public void setEvents(){
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,7 +93,6 @@ public class DashboardActivity extends AppCompatActivity {
                 dialog.show(getSupportFragmentManager(), "NewTweetDialogFragmet");
             }
         });
-
     }
 
 }
