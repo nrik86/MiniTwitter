@@ -1,26 +1,23 @@
 package com.enriquejimenez.minitwitter.ui.fragment;
 
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.enriquejimenez.minitwitter.retrofit.AuthMiniTwitterClient;
-import com.enriquejimenez.minitwitter.retrofit.AuthMiniTwitterService;
+import com.enriquejimenez.minitwitter.data.TweetViewModel;
 import com.enriquejimenez.minitwitter.retrofit.response.Tweet;
 import com.enriquejimenez.minitwitter.ui.adapter.MyTweetRecyclerViewAdapter;
 import com.enriquejimenez.minitwitter.R;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 public class TweetListFragment extends Fragment {
@@ -29,6 +26,8 @@ public class TweetListFragment extends Fragment {
     private MyTweetRecyclerViewAdapter adapter;
 
     private List<Tweet> tweetList;
+
+    private TweetViewModel tweetViewModel;
 
 
 
@@ -50,6 +49,9 @@ public class TweetListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        tweetViewModel = ViewModelProviders.of(getActivity())
+                .get(TweetViewModel.class);
 
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
@@ -76,6 +78,13 @@ public class TweetListFragment extends Fragment {
 
 
     private void loadTweetData() {
+        tweetViewModel.getTweets().observe(getActivity(), new Observer<List<Tweet>>() {
+            @Override
+            public void onChanged(List<Tweet> tweets) {
+                tweetList = tweets;
+                adapter.setData(tweetList);
+            }
+        });
         adapter = new MyTweetRecyclerViewAdapter(
                 getActivity(),
                 tweetList

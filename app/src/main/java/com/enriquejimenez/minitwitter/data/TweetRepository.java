@@ -1,13 +1,12 @@
 package com.enriquejimenez.minitwitter.data;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import android.widget.Toast;
 
 import com.enriquejimenez.minitwitter.retrofit.AuthMiniTwitterClient;
 import com.enriquejimenez.minitwitter.retrofit.AuthMiniTwitterService;
 import com.enriquejimenez.minitwitter.retrofit.response.Tweet;
-import com.enriquejimenez.minitwitter.ui.adapter.MyTweetRecyclerViewAdapter;
 import com.enriquejimenez.minitwitter.utils.MiniTwitterApp;
 
 import java.util.List;
