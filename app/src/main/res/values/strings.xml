@@ -18,7 +18,8 @@
     <string name="accept">Aceptar</string>
     <string name="exit">Salir</string>
     <string name="cancel">Cancelar</string>
-    <string name="erase">Eliminar</string>
+    <string name="delete">Eliminar</string>
+    <string name="delete_tweet">Eliminar Tweet</string>
 
 
 </resources>

@@ -46,19 +46,27 @@ public class MyTweetRecyclerViewAdapter extends RecyclerView.Adapter<MyTweetRecy
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-
         holder.mItem = mValues.get(position);
-
         int likesSize = holder.mItem.getLikes().size();
+        setTextViews(holder, likesSize);
+        setPhotoImageView(holder);
+        onClickListenersView(holder);
+        setLikeImageView(holder);
+        setImageOpenDialog(holder);
+        Log.e("LOG", holder.toString());
+    }
 
+    private void setTextViews(ViewHolder holder, int likesSize) {
         holder.userNameTextView.setText("@" + holder.mItem.getUser().getUsername());
         holder.messageTextView.setText(holder.mItem.getMensaje());
         if(likesSize>0){
             holder.likesCountTextView.setText(String.valueOf(likesSize));
         }else{
             holder.likesCountTextView.setText("");
-
         }
+    }
+
+    private void setPhotoImageView(ViewHolder holder) {
         String photo = holder.mItem.getUser().getPhotoUrl();
         if(!photo.isEmpty()) {
             Glide.with(context)
@@ -69,16 +77,19 @@ public class MyTweetRecyclerViewAdapter extends RecyclerView.Adapter<MyTweetRecy
                     .load(context.getResources().getDrawable(R.drawable.ic_mini_twitter_perfil))
                     .into(holder.avatarImageView);
         }
-        refreshLikeActionImage(holder);
-        setLikeImageView(holder);
-        Log.e("LOG", holder.toString());
-
     }
-    private void refreshLikeActionImage(final ViewHolder holder){
+
+    private void onClickListenersView(final ViewHolder holder){
        holder.likeImageView.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
                tweetViewModel.likeTweet(holder.mItem.getId());
+           }
+       });
+       holder.showDialogImageView.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               tweetViewModel.openDialogTweetMenu(context,holder.mItem.getId());
            }
        });
     }
@@ -89,7 +100,6 @@ public class MyTweetRecyclerViewAdapter extends RecyclerView.Adapter<MyTweetRecy
                 .into(holder.likeImageView);
         holder.likesCountTextView.setTextColor(context.getResources().getColor(android.R.color.black));
         holder.likesCountTextView.setTypeface(null, Typeface.NORMAL);
-
         for (Like like : holder.mItem.getLikes()){
             if(like.getUsername().equals(ownUserName)){
                 Glide.with(context)
@@ -99,6 +109,13 @@ public class MyTweetRecyclerViewAdapter extends RecyclerView.Adapter<MyTweetRecy
                 holder.likesCountTextView.setTypeface(null, Typeface.BOLD);
                 break;
             }
+        }
+    }
+
+    private void setImageOpenDialog(final ViewHolder holder){
+        holder.showDialogImageView.setVisibility(View.GONE);
+        if(holder.mItem.getUser().getUsername().equals(ownUserName)){
+            holder.showDialogImageView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -120,6 +137,7 @@ public class MyTweetRecyclerViewAdapter extends RecyclerView.Adapter<MyTweetRecy
         public final View mView;
         public final ImageView avatarImageView;
         public final ImageView likeImageView;
+        public final ImageView showDialogImageView;
         public final TextView userNameTextView;
         public final TextView messageTextView;
         public final TextView likesCountTextView;
@@ -129,6 +147,7 @@ public class MyTweetRecyclerViewAdapter extends RecyclerView.Adapter<MyTweetRecy
             mView = view;
             avatarImageView = (ImageView) view.findViewById(R.id.imageViewAvatar);
             likeImageView = (ImageView) view.findViewById(R.id.imageViewLikes);
+            showDialogImageView = (ImageView) view.findViewById(R.id.imageViewShowDialog);
             userNameTextView = (TextView) view.findViewById(R.id.textViewUserName);
             messageTextView = (TextView) view.findViewById(R.id.textViewMessage);
             likesCountTextView = (TextView) view.findViewById(R.id.textViewLikes);

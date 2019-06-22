@@ -2,7 +2,6 @@ package com.enriquejimenez.minitwitter.ui.fragment;
 
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
@@ -22,7 +21,6 @@ import com.bumptech.glide.Glide;
 import com.enriquejimenez.minitwitter.R;
 import com.enriquejimenez.minitwitter.data.TweetViewModel;
 import com.enriquejimenez.minitwitter.utils.Constants;
-import com.enriquejimenez.minitwitter.utils.MiniTwitterApp;
 import com.enriquejimenez.minitwitter.utils.SharedPreferencesManager;
 
 public class NewTweetDialogFragment extends DialogFragment implements View.OnClickListener {
@@ -121,7 +119,7 @@ public class NewTweetDialogFragment extends DialogFragment implements View.OnCli
             AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
             alertDialog.setTitle("Vas a borrar el Tweet");
             alertDialog.setMessage("¿Seguro que quieres cerrar?. Tu mensaje se perderá");
-            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getActivity().getResources().getString(R.string.erase),
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getActivity().getResources().getString(R.string.delete),
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
