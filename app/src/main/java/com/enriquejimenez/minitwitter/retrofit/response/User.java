@@ -1,62 +1,62 @@
 
-package com.enriquejimenez.minitwitter;
+package com.enriquejimenez.minitwitter.retrofit.response;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ResponseAuth {
+public class User {
 
-    @SerializedName("token")
+    @SerializedName("id")
     @Expose
-    private String token;
+    private Integer id;
     @SerializedName("username")
     @Expose
     private String username;
-    @SerializedName("email")
+    @SerializedName("descripcion")
     @Expose
-    private String email;
+    private String descripcion;
+    @SerializedName("website")
+    @Expose
+    private String website;
     @SerializedName("photoUrl")
     @Expose
     private String photoUrl;
     @SerializedName("created")
     @Expose
     private String created;
-    @SerializedName("active")
-    @Expose
-    private Boolean active;
 
     /**
      * No args constructor for use in serialization
      * 
      */
-    public ResponseAuth() {
+    public User() {
     }
 
     /**
      * 
+     * @param id
      * @param username
      * @param created
-     * @param email
-     * @param token
-     * @param active
+     * @param website
+     * @param descripcion
      * @param photoUrl
      */
-    public ResponseAuth(String token, String username, String email, String photoUrl, String created, Boolean active) {
+    public User(Integer id, String username, String descripcion, String website, String photoUrl, String created) {
         super();
-        this.token = token;
+        this.id = id;
         this.username = username;
-        this.email = email;
+        this.descripcion = descripcion;
+        this.website = website;
         this.photoUrl = photoUrl;
         this.created = created;
-        this.active = active;
     }
 
-    public String getToken() {
-        return token;
+    public Integer getId() {
+        return id;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getUsername() {
@@ -67,12 +67,20 @@ public class ResponseAuth {
         this.username = username;
     }
 
-    public String getEmail() {
-        return email;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public String getWebsite() {
+        return website;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website;
     }
 
     public String getPhotoUrl() {
@@ -89,14 +97,6 @@ public class ResponseAuth {
 
     public void setCreated(String created) {
         this.created = created;
-    }
-
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
     }
 
 }
