@@ -180,7 +180,6 @@ public class TweetRepository {
                 if (response.isSuccessful()){
                     List<Tweet> cloneTweetList = new ArrayList<>();
                     //Añadimos en primer lugar el nuevo tweet que nos llega del servidor
-                    cloneTweetList.add(response.body());
                     for(int i=0;i< allTweets.getValue().size();i++){
 
                         if(allTweets.getValue().get(i).getId() == idTweet ){

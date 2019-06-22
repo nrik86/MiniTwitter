@@ -11,7 +11,7 @@ public class Constants {
     public static final String ALL_FAV_TWEETS_URL = "tweets/favs";
     public static final String CREATE_TWEET_URL = "tweets/create";
     public static final String LIKE_TWEET_URL = "tweets/like/{idTweet}";
-
+    public static final String DELETE_TWEET = "/tweets/{id}";
     public static final String PHOTO_URL = "https://www.minitwitter.com/apiv1/uploads/photos/";
 
 
