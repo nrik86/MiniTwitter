@@ -1,4 +1,4 @@
-package com.enriquejimenez.minitwitter.ui.adapter;
+package com.enriquejimenez.minitwitter.ui.tweets.adapter;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.enriquejimenez.minitwitter.R;
-import com.enriquejimenez.minitwitter.data.TweetViewModel;
+import com.enriquejimenez.minitwitter.mvvm.tweet.TweetViewModel;
 import com.enriquejimenez.minitwitter.retrofit.response.Like;
 import com.enriquejimenez.minitwitter.retrofit.response.Tweet;
 import com.enriquejimenez.minitwitter.utils.Constants;

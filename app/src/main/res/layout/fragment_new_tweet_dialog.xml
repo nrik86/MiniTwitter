@@ -4,23 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragment.NewTweetDialogFragment">
+    tools:context=".ui.tweets.fragment.NewTweetDialogFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutBarDialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white">
+        android:layout_marginBottom="24dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/imageViewAvatarNewTweet"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/imageViewCloseDialog"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="24dp"
-            android:src="@drawable/ic_close_blue_ligth_24dp"
             app:layout_constraintBottom_toBottomOf="@+id/buttonSendTweet"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/buttonSendTweet" />
+            app:layout_constraintTop_toTopOf="@+id/buttonSendTweet"
+            app:srcCompat="@drawable/ic_close_blue_ligth_24dp" />
 
         <Button
             android:id="@+id/buttonSendTweet"

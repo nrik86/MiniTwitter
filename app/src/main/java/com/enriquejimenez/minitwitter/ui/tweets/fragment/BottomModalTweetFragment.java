@@ -1,4 +1,4 @@
-package com.enriquejimenez.minitwitter.ui;
+package com.enriquejimenez.minitwitter.ui.tweets.fragment;
 
 import androidx.lifecycle.ViewModelProviders;
 
@@ -6,7 +6,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -14,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.enriquejimenez.minitwitter.R;
-import com.enriquejimenez.minitwitter.data.TweetViewModel;
+import com.enriquejimenez.minitwitter.mvvm.tweet.TweetViewModel;
 import com.enriquejimenez.minitwitter.utils.Constants;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.navigation.NavigationView;

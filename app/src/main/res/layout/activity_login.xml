@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/blue_light"
-    tools:context=".ui.activity.LoginActivity">
+    tools:context=".ui.auth.LoginActivity">
 
     <ImageView
         android:id="@+id/imageViewLogin"
@@ -13,7 +13,7 @@
         android:layout_height="100dp"
         android:layout_marginTop="32dp"
         android:layout_marginBottom="32dp"
-        android:src="@drawable/ic_mini_twitter_white"
+        app:srcCompat="@drawable/ic_mini_twitter_white"
         app:layout_constraintBottom_toTopOf="@+id/editTextEmailLogin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

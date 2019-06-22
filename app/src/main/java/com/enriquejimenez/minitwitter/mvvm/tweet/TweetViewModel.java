@@ -1,4 +1,4 @@
-package com.enriquejimenez.minitwitter.data;
+package com.enriquejimenez.minitwitter.mvvm.tweet;
 
 import android.app.Application;
 import android.content.Context;
@@ -9,8 +9,7 @@ import androidx.lifecycle.LiveData;
 import androidx.annotation.NonNull;
 
 import com.enriquejimenez.minitwitter.retrofit.response.Tweet;
-import com.enriquejimenez.minitwitter.ui.BottomModalTweetFragment;
-import com.enriquejimenez.minitwitter.utils.Constants;
+import com.enriquejimenez.minitwitter.ui.tweets.fragment.BottomModalTweetFragment;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.enriquejimenez.minitwitter.ui.fragment;
+package com.enriquejimenez.minitwitter.ui.tweets.fragment;
 
 
 import android.app.Dialog;
@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.enriquejimenez.minitwitter.R;
-import com.enriquejimenez.minitwitter.data.TweetViewModel;
+import com.enriquejimenez.minitwitter.mvvm.tweet.TweetViewModel;
 import com.enriquejimenez.minitwitter.utils.Constants;
 import com.enriquejimenez.minitwitter.utils.SharedPreferencesManager;
 

@@ -1,9 +1,10 @@
-package com.enriquejimenez.minitwitter.ui.activity;
+package com.enriquejimenez.minitwitter.ui;
 
 import android.os.Bundle;
 
 import com.bumptech.glide.Glide;
-import com.enriquejimenez.minitwitter.ui.fragment.NewTweetDialogFragment;
+import com.enriquejimenez.minitwitter.ui.tweets.fragment.NewTweetDialogFragment;
+import com.enriquejimenez.minitwitter.ui.tweets.fragment.TweetListFragment;
 import com.enriquejimenez.minitwitter.utils.Constants;
 import com.enriquejimenez.minitwitter.utils.SharedPreferencesManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -16,7 +17,6 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.enriquejimenez.minitwitter.R;
-import com.enriquejimenez.minitwitter.ui.fragment.TweetListFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class DashboardActivity extends AppCompatActivity {

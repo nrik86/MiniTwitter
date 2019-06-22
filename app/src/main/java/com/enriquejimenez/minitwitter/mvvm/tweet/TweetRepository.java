@@ -1,4 +1,4 @@
-package com.enriquejimenez.minitwitter.data;
+package com.enriquejimenez.minitwitter.mvvm.tweet;
 
 import androidx.lifecycle.MutableLiveData;
 import android.widget.Toast;

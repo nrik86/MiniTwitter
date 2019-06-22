@@ -1,4 +1,4 @@
-package com.enriquejimenez.minitwitter.ui.fragment;
+package com.enriquejimenez.minitwitter.ui.tweets.fragment;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
@@ -7,7 +7,6 @@ import android.content.Context;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -16,11 +15,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.enriquejimenez.minitwitter.data.TweetViewModel;
+import com.enriquejimenez.minitwitter.mvvm.tweet.TweetViewModel;
 import com.enriquejimenez.minitwitter.retrofit.response.Tweet;
-import com.enriquejimenez.minitwitter.ui.adapter.MyTweetRecyclerViewAdapter;
 import com.enriquejimenez.minitwitter.R;
 import com.enriquejimenez.minitwitter.utils.Constants;
+import com.enriquejimenez.minitwitter.ui.tweets.adapter.MyTweetRecyclerViewAdapter;
 
 import java.util.List;
 
