@@ -33,4 +33,7 @@ public class Constants {
 
 
     public static final String ARG_TWEET_ID = "TWEET_ID";
+
+    //SERVICES PROFILE
+    public static final String USER_PROFILE = "users/profile";
 }

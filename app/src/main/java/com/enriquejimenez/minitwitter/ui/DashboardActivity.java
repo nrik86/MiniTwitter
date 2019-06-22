@@ -3,6 +3,7 @@ package com.enriquejimenez.minitwitter.ui;
 import android.os.Bundle;
 
 import com.bumptech.glide.Glide;
+import com.enriquejimenez.minitwitter.ui.profile.ProfileFragment;
 import com.enriquejimenez.minitwitter.ui.tweets.fragment.NewTweetDialogFragment;
 import com.enriquejimenez.minitwitter.ui.tweets.fragment.TweetListFragment;
 import com.enriquejimenez.minitwitter.utils.Constants;
@@ -15,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.enriquejimenez.minitwitter.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -23,6 +25,7 @@ public class DashboardActivity extends AppCompatActivity {
 
     private FloatingActionButton floatingActionButton;
     private ImageView avatarImageView;
+    private TextView titleAppBar;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -36,13 +39,17 @@ public class DashboardActivity extends AppCompatActivity {
                 case R.id.navigation_home:
                     fragment = TweetListFragment.newInstance(Constants.TWEET_LIST_ALL);
                     floatingActionButton.show();
+                    titleAppBar.setText(getResources().getString(R.string.toolbar_text_home));
                     break;
                 case R.id.navigation_favs:
                     fragment = TweetListFragment.newInstance(Constants.TWEET_LIST_FAVS);
                     floatingActionButton.hide();
+                    titleAppBar.setText(getResources().getString(R.string.toolbar_text_favs));
                     break;
                 case R.id.navigation_profile:
+                    fragment = new ProfileFragment();
                     floatingActionButton.hide();
+                    titleAppBar.setText(getResources().getString(R.string.toolbar_text_profile));
                     break;
             }
             if(fragment != null){
@@ -79,6 +86,7 @@ public class DashboardActivity extends AppCompatActivity {
     private void setViews() {
         floatingActionButton = findViewById(R.id.fab);
         avatarImageView = findViewById(R.id.imageViewUserToolbar);
+        titleAppBar = findViewById(R.id.textViewTitleToolBar);
 
         if(!SharedPreferencesManager.getString(Constants.PREF_URL_PHOTO).isEmpty()) {
             String photoUser = Constants.PHOTO_URL + SharedPreferencesManager.getString(Constants.PREF_URL_PHOTO);
