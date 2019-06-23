@@ -55,7 +55,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        profileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
+        profileViewModel = ViewModelProviders.of(getActivity()).get(ProfileViewModel.class);
 
     }
 

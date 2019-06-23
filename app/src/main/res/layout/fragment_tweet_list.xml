@@ -6,7 +6,8 @@
     android:id="@+id/swipeRefreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.tweets.fragment.TweetListFragment">
+    tools:context=".ui.tweets.fragment.TweetListFragment"
+    android:animateLayoutChanges="true">
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
