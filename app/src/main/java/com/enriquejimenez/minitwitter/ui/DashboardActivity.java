@@ -8,6 +8,7 @@ import com.enriquejimenez.minitwitter.ui.profile.ProfileFragment;
 import com.enriquejimenez.minitwitter.ui.tweets.fragment.NewTweetDialogFragment;
 import com.enriquejimenez.minitwitter.ui.tweets.fragment.TweetListFragment;
 import com.enriquejimenez.minitwitter.utils.Constants;
+import com.enriquejimenez.minitwitter.utils.MiniTwitterApp;
 import com.enriquejimenez.minitwitter.utils.SharedPreferencesManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,11 +19,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.enriquejimenez.minitwitter.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 
-public class DashboardActivity extends AppCompatActivity {
+public class DashboardActivity extends AppCompatActivity implements PermissionListener {
 
     private FloatingActionButton floatingActionButton;
     private ImageView avatarImageView;
@@ -118,4 +125,21 @@ public class DashboardActivity extends AppCompatActivity {
         });
     }
 
+    //PERMISSION LISTENER
+
+    @Override
+    public void onPermissionGranted(PermissionGrantedResponse response) {
+
+    }
+
+    @Override
+    public void onPermissionDenied(PermissionDeniedResponse response) {
+        Toast.makeText(DashboardActivity.this, "Es necesario que aceptes el permiso para poder subir la fotografía", Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+
+    }
 }

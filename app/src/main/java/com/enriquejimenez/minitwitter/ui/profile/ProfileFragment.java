@@ -3,6 +3,7 @@ package com.enriquejimenez.minitwitter.ui.profile;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.Manifest;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -26,6 +27,10 @@ import com.enriquejimenez.minitwitter.retrofit.response.ResponseUserProfile;
 import com.enriquejimenez.minitwitter.utils.Constants;
 import com.enriquejimenez.minitwitter.utils.SharedPreferencesManager;
 import com.enriquejimenez.minitwitter.utils.Utils;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.listener.single.CompositePermissionListener;
+import com.karumi.dexter.listener.single.DialogOnDeniedPermissionListener;
+import com.karumi.dexter.listener.single.PermissionListener;
 
 public class ProfileFragment extends Fragment implements View.OnClickListener {
 
@@ -38,7 +43,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     EditText passwordEditText;
     Button saveButton;
     Button changePasswordButton;
+
     private boolean loadingData = true;
+    private PermissionListener allPermissionListener;
 
     public static ProfileFragment newInstance() {
         return new ProfileFragment();
@@ -113,6 +120,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private void eventViews() {
         saveButton.setOnClickListener(this);
         changePasswordButton.setOnClickListener(this);
+        avatarProfileImageView.setOnClickListener(this);
     }
 
     private void setAvatarImageView() {
@@ -154,6 +162,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             case R.id.buttonChangePasswordProfile:
                 Toast.makeText(getActivity(), "Botón cambiar contraseña",Toast.LENGTH_SHORT).show();
                 break;
+            case R.id.imageViewAvatarProfile:
+                uploadPhotoProfile();
+                break;
         }
     }
 
@@ -176,9 +187,30 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             saveButton.setEnabled(false);
             Toast.makeText(getActivity(), "Guardando...",Toast.LENGTH_SHORT).show();
         }
-
-
-
-
     }
+
+    private void uploadPhotoProfile() {
+        //Invocamos al método de comprobación de permisos
+        checkPermission();
+    }
+
+    private void checkPermission() {
+        PermissionListener dialogDeniedPermissionListener =
+                DialogOnDeniedPermissionListener.Builder.withContext(getActivity())
+                        .withTitle("Permisos")
+                        .withMessage("Los permisos solicitados son necesarios " +
+                                "para poder seleccionar una foto")
+                        .withButtonText("Aceptar")
+                        .withIcon(R.mipmap.ic_launcher_round)
+                        .build();
+
+        allPermissionListener = new CompositePermissionListener(
+                (PermissionListener) getActivity(),
+                dialogDeniedPermissionListener
+        );
+
+        Dexter.withActivity(getActivity()).withPermission(Manifest.permission.READ_EXTERNAL_STORAGE).withListener(allPermissionListener).check();
+    }
+
+
 }
