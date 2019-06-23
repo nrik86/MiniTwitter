@@ -36,4 +36,5 @@ public class Constants {
 
     //SERVICES PROFILE
     public static final String USER_PROFILE = "users/profile";
+    public static final String UPLOAD_PROFILE_PHOTO = "users/uploadprofilephoto";
 }

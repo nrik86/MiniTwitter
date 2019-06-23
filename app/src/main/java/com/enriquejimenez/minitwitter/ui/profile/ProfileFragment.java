@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.enriquejimenez.minitwitter.R;
 import com.enriquejimenez.minitwitter.mvvm.profile.ProfileViewModel;
 import com.enriquejimenez.minitwitter.retrofit.request.RequestUserProfile;
@@ -79,6 +80,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     Glide.with(getActivity())
                             .load(Constants.PHOTO_URL
                                     + responseUserProfile.getPhotoUrl())
+                            .dontAnimate()
+                            .centerCrop()
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .skipMemoryCache(true)
                             .into(avatarProfileImageView);
                 }
                 if(!loadingData){
@@ -114,10 +119,20 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         String photoUrl = SharedPreferencesManager.getString(Constants.PREF_URL_PHOTO);
         if(photoUrl.isEmpty()){
             String photoUser = Constants.PHOTO_URL + photoUrl;
-            Glide.with(this).load(photoUser).into(avatarProfileImageView);
+            Glide.with(this)
+                    .load(photoUser)
+                    .dontAnimate()
+                    .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(avatarProfileImageView);
         }else{
             Glide.with(this)
                     .load(this.getResources().getDrawable(R.drawable.ic_mini_twitter_perfil))
+                    .dontAnimate()
+                    .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
                     .into(avatarProfileImageView);
         }
     }

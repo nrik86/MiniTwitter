@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.enriquejimenez.minitwitter.R;
 import com.enriquejimenez.minitwitter.mvvm.tweet.TweetViewModel;
 import com.enriquejimenez.minitwitter.retrofit.response.Like;
@@ -71,10 +72,18 @@ public class MyTweetRecyclerViewAdapter extends RecyclerView.Adapter<MyTweetRecy
         if(!photo.isEmpty()) {
             Glide.with(context)
                     .load(Constants.PHOTO_URL + photo)
+                    .dontAnimate()
+                    .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
                     .into(holder.avatarImageView);
         }else {
             Glide.with(context)
                     .load(context.getResources().getDrawable(R.drawable.ic_mini_twitter_perfil))
+                    .dontAnimate()
+                    .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
                     .into(holder.avatarImageView);
         }
     }

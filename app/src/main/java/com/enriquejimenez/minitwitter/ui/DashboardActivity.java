@@ -3,6 +3,7 @@ package com.enriquejimenez.minitwitter.ui;
 import android.os.Bundle;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.enriquejimenez.minitwitter.ui.profile.ProfileFragment;
 import com.enriquejimenez.minitwitter.ui.tweets.fragment.NewTweetDialogFragment;
 import com.enriquejimenez.minitwitter.ui.tweets.fragment.TweetListFragment;
@@ -90,10 +91,20 @@ public class DashboardActivity extends AppCompatActivity {
 
         if(!SharedPreferencesManager.getString(Constants.PREF_URL_PHOTO).isEmpty()) {
             String photoUser = Constants.PHOTO_URL + SharedPreferencesManager.getString(Constants.PREF_URL_PHOTO);
-            Glide.with(this).load(photoUser).into(avatarImageView);
+            Glide.with(this)
+                    .load(photoUser)
+                    .dontAnimate()
+                    .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(avatarImageView);
         }else{
             Glide.with(this)
                     .load(this.getResources().getDrawable(R.drawable.ic_mini_twitter_perfil))
+                    .dontAnimate()
+                    .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
                     .into(avatarImageView);
         }
     }

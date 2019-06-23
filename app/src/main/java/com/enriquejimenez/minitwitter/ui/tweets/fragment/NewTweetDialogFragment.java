@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.enriquejimenez.minitwitter.R;
 import com.enriquejimenez.minitwitter.mvvm.tweet.TweetViewModel;
 import com.enriquejimenez.minitwitter.utils.Constants;
@@ -80,7 +81,13 @@ public class NewTweetDialogFragment extends DialogFragment implements View.OnCli
     public void setAvatarImage(){
         if(!SharedPreferencesManager.getString(Constants.PREF_URL_PHOTO).isEmpty()) {
             String photoUser = Constants.PHOTO_URL + SharedPreferencesManager.getString(Constants.PREF_URL_PHOTO);
-            Glide.with(getActivity()).load(photoUser).into(avatarImageView);
+            Glide.with(getActivity())
+                    .load(photoUser)
+                    .dontAnimate()
+                    .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(avatarImageView);
         }else{
             Glide.with(getActivity())
                     .load(getActivity().getResources().getDrawable(R.drawable.ic_mini_twitter_perfil))
