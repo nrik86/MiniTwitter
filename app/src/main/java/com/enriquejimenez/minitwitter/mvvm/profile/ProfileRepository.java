@@ -72,6 +72,10 @@ public class ProfileRepository {
         return profile;
     }
 
+    public MutableLiveData<String> getPhotoProfile(){
+        return photoProfile;
+    }
+
 
     public void updateProfile(RequestUserProfile requestUserProfile) {
         Call<ResponseUserProfile> call = authMiniTwitterService.updateProfile(requestUserProfile);
@@ -95,7 +99,7 @@ public class ProfileRepository {
 
     public void uploadPhoto(String photoPath){
         File file = new File(photoPath);
-        final RequestBody requestBody = RequestBody.create(MediaType.parse("image/jpg"),file);
+        final RequestBody requestBody = RequestBody.create(MediaType.parse("image.jpg"),file);
         Call<ResponseUploadPhoto> call = authMiniTwitterService.uploadProfilePhoto(requestBody);
         call.enqueue(new Callback<ResponseUploadPhoto>() {
             @Override

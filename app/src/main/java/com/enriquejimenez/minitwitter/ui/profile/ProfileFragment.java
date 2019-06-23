@@ -25,6 +25,7 @@ import com.enriquejimenez.minitwitter.mvvm.profile.ProfileViewModel;
 import com.enriquejimenez.minitwitter.retrofit.request.RequestUserProfile;
 import com.enriquejimenez.minitwitter.retrofit.response.ResponseUserProfile;
 import com.enriquejimenez.minitwitter.utils.Constants;
+import com.enriquejimenez.minitwitter.utils.MiniTwitterApp;
 import com.enriquejimenez.minitwitter.utils.SharedPreferencesManager;
 import com.enriquejimenez.minitwitter.utils.Utils;
 import com.karumi.dexter.Dexter;
@@ -45,7 +46,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     Button changePasswordButton;
 
     private boolean loadingData = true;
-    private PermissionListener allPermissionListener;
+    private PermissionListener allPermissionsListener;
 
     public static ProfileFragment newInstance() {
         return new ProfileFragment();
@@ -84,7 +85,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     descriptionEditText.setText(responseUserProfile.getDescripcion());
                 }
                 if(Utils.isNullOrEmpty(responseUserProfile.getPhotoUrl())){
-                    Glide.with(getActivity())
+                    Glide.with(MiniTwitterApp.getContext())
                             .load(Constants.PHOTO_URL
                                     + responseUserProfile.getPhotoUrl())
                             .dontAnimate()
@@ -191,26 +192,26 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     private void uploadPhotoProfile() {
         //Invocamos al método de comprobación de permisos
-        checkPermission();
+        checkPermissions();
     }
 
-    private void checkPermission() {
-        PermissionListener dialogDeniedPermissionListener =
+    private void checkPermissions() {
+        PermissionListener dialogOnDeniedPermissionListener =
                 DialogOnDeniedPermissionListener.Builder.withContext(getActivity())
                         .withTitle("Permisos")
-                        .withMessage("Los permisos solicitados son necesarios " +
-                                "para poder seleccionar una foto")
+                        .withMessage("Los permisos solicitados son necesarios para poder seleccionar una foto de perfil")
                         .withButtonText("Aceptar")
-                        .withIcon(R.mipmap.ic_launcher_round)
+                        .withIcon(R.mipmap.ic_launcher)
                         .build();
 
-        allPermissionListener = new CompositePermissionListener(
+        allPermissionsListener = new CompositePermissionListener(
                 (PermissionListener) getActivity(),
-                dialogDeniedPermissionListener
+                dialogOnDeniedPermissionListener
         );
 
-        Dexter.withActivity(getActivity()).withPermission(Manifest.permission.READ_EXTERNAL_STORAGE).withListener(allPermissionListener).check();
+        Dexter.withActivity(getActivity())
+                .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                .withListener(allPermissionsListener)
+                .check();
     }
-
-
 }

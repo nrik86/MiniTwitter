@@ -1,5 +1,7 @@
 package com.enriquejimenez.minitwitter.utils;
 
+import android.os.Bundle;
+
 public class Constants {
 
     public static final String API_MINITWITTER_BASE_URL = "https://www.minitwitter.com:3001/apiv1/";
@@ -37,4 +39,11 @@ public class Constants {
     //SERVICES PROFILE
     public static final String USER_PROFILE = "users/profile";
     public static final String UPLOAD_PROFILE_PHOTO = "users/uploadprofilephoto";
+
+
+    //STARTACTIVITY FOR RESULT
+    public static final int SELECT_PHOTO_GALLERY = 1;
+
 }
+
+

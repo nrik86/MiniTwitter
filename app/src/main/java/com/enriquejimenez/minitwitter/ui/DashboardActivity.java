@@ -1,27 +1,33 @@
 package com.enriquejimenez.minitwitter.ui;
 
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.enriquejimenez.minitwitter.ui.profile.ProfileFragment;
-import com.enriquejimenez.minitwitter.ui.tweets.fragment.NewTweetDialogFragment;
-import com.enriquejimenez.minitwitter.ui.tweets.fragment.TweetListFragment;
-import com.enriquejimenez.minitwitter.utils.Constants;
-import com.enriquejimenez.minitwitter.utils.MiniTwitterApp;
-import com.enriquejimenez.minitwitter.utils.SharedPreferencesManager;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
+import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.enriquejimenez.minitwitter.R;
+import com.enriquejimenez.minitwitter.mvvm.profile.ProfileViewModel;
+import com.enriquejimenez.minitwitter.ui.profile.ProfileFragment;
+import com.enriquejimenez.minitwitter.ui.tweets.fragment.NewTweetDialogFragment;
+import com.enriquejimenez.minitwitter.ui.tweets.fragment.TweetListFragment;
+import com.enriquejimenez.minitwitter.utils.Constants;
+import com.enriquejimenez.minitwitter.utils.SharedPreferencesManager;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
@@ -34,6 +40,8 @@ public class DashboardActivity extends AppCompatActivity implements PermissionLi
     private FloatingActionButton floatingActionButton;
     private ImageView avatarImageView;
     private TextView titleAppBar;
+    ProfileViewModel profileViewModel;
+    
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -87,6 +95,8 @@ public class DashboardActivity extends AppCompatActivity implements PermissionLi
                         TweetListFragment.newInstance(Constants.TWEET_LIST_ALL))
                 .commit();
 
+        profileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
+
         setViews();
         setEvents();
     }
@@ -96,7 +106,31 @@ public class DashboardActivity extends AppCompatActivity implements PermissionLi
         avatarImageView = findViewById(R.id.imageViewUserToolbar);
         titleAppBar = findViewById(R.id.textViewTitleToolBar);
 
-        if(!SharedPreferencesManager.getString(Constants.PREF_URL_PHOTO).isEmpty()) {
+
+        // Seteamos la imagen del usuario de perfil
+        String photoUrl = SharedPreferencesManager.getString(Constants.PREF_URL_PHOTO);
+        if(!photoUrl.isEmpty()) {
+            Glide.with(this)
+                    .load(Constants.PHOTO_URL + photoUrl)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .centerCrop()
+                    .skipMemoryCache(true)
+                    .into(avatarImageView);
+        }
+
+        profileViewModel.photoProfile.observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String photo) {
+                Glide.with(DashboardActivity.this)
+                        .load(Constants.PHOTO_URL + photo)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .centerCrop()
+                        .skipMemoryCache(true)
+                        .into(avatarImageView);
+            }
+        });
+
+        /*if(!SharedPreferencesManager.getString(Constants.PREF_URL_PHOTO).isEmpty()) {
             String photoUser = Constants.PHOTO_URL + SharedPreferencesManager.getString(Constants.PREF_URL_PHOTO);
             Glide.with(this)
                     .load(photoUser)
@@ -113,7 +147,7 @@ public class DashboardActivity extends AppCompatActivity implements PermissionLi
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
                     .into(avatarImageView);
-        }
+        }*/
     }
     public void setEvents(){
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -125,11 +159,57 @@ public class DashboardActivity extends AppCompatActivity implements PermissionLi
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(resultCode != RESULT_CANCELED) {
+            if(requestCode == Constants.SELECT_PHOTO_GALLERY) {
+                if(data != null) {
+                    Uri imagenSeleccionada = data.getData(); // content://gallery/photos/..
+                    String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                    Cursor cursor = getContentResolver().query(imagenSeleccionada,
+                            filePathColumn, null, null, null);
+                    if(cursor != null) {
+                        cursor.moveToFirst();
+                        // "filename" = filePathColumn[0]
+                        int imagenIndex = cursor.getColumnIndex(filePathColumn[0]);
+                        String fotoPath = cursor.getString(imagenIndex);
+                        profileViewModel.uploadPhoto(fotoPath);
+                        cursor.close();
+                    }
+
+                }
+            }
+        }
+        /*//PARA RECOGER LA URL DEL PATH DE LA FOTO SELECCIONADA
+        if(resultCode != RESULT_CANCELED){
+            if(requestCode == Constants.SELECT_PHOTO_GALLERY){
+                if(data != null){
+                    //PARA RESOLVER QUE PARTE DEL PATH TENGO QUE COGER PARA
+                    //SUBIR LA FOTO
+                    Uri selectedImage = data.getData();
+                    String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                    Cursor cursor = getContentResolver().query(
+                            selectedImage,filePathColumn
+                            ,null,null,null);
+                    if(cursor != null){
+                        cursor.moveToFirst();
+                        int imageIndex = cursor.getColumnIndex(filePathColumn[0]);
+                        String photoPath = cursor.getString(imageIndex).trim();
+                        profileViewModel.uploadPhoto(photoPath);
+                        cursor.close();
+                    }
+                }
+            }
+        }*/
+    }
+
     //PERMISSION LISTENER
 
     @Override
     public void onPermissionGranted(PermissionGrantedResponse response) {
-
+        //Abrimos selecciónde fotos de la gallery
+        Intent selectPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(selectPhoto, Constants.SELECT_PHOTO_GALLERY);
     }
 
     @Override
