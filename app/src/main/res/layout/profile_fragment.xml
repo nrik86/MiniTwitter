@@ -49,7 +49,7 @@
         android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="@string/actual_pass"
-        android:inputType="textPersonName"
+        android:inputType="textPersonName|textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextDescriptionProfile" />

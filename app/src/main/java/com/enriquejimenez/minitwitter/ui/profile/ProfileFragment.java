@@ -22,7 +22,6 @@ import com.enriquejimenez.minitwitter.R;
 import com.enriquejimenez.minitwitter.mvvm.profile.ProfileViewModel;
 import com.enriquejimenez.minitwitter.retrofit.request.RequestUserProfile;
 import com.enriquejimenez.minitwitter.retrofit.response.ResponseUserProfile;
-import com.enriquejimenez.minitwitter.retrofit.response.User;
 import com.enriquejimenez.minitwitter.utils.Constants;
 import com.enriquejimenez.minitwitter.utils.SharedPreferencesManager;
 import com.enriquejimenez.minitwitter.utils.Utils;
@@ -38,6 +37,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     EditText passwordEditText;
     Button saveButton;
     Button changePasswordButton;
+    private boolean loadingData = true;
 
     public static ProfileFragment newInstance() {
         return new ProfileFragment();
@@ -81,6 +81,12 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                                     + responseUserProfile.getPhotoUrl())
                             .into(avatarProfileImageView);
                 }
+                if(!loadingData){
+                    saveButton.setEnabled(true);
+                    Toast.makeText(getActivity(), "Datos guardados correctamente",Toast.LENGTH_SHORT).show();
+
+                }
+
             }
         });
 
@@ -129,7 +135,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         switch (id){
             case R.id.buttonSaveProfile:
                 saveProfileData();
-                Toast.makeText(getActivity(), "Guardando...",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.buttonChangePasswordProfile:
                 Toast.makeText(getActivity(), "Botón cambiar contraseña",Toast.LENGTH_SHORT).show();
@@ -153,6 +158,12 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         }else {
             RequestUserProfile requestUserProfile = new RequestUserProfile(username, email, descripcion, website, password);
             profileViewModel.updateProfile(requestUserProfile);
+            saveButton.setEnabled(false);
+            Toast.makeText(getActivity(), "Guardando...",Toast.LENGTH_SHORT).show();
         }
+
+
+
+
     }
 }
